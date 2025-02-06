@@ -37,3 +37,4 @@ C:\Users\jerem\source\repos\BoardGamesLibrary2\obj\Debug\net8.0-windows\refint\B
 C:\Users\jerem\source\repos\BoardGamesLibrary2\obj\Debug\net8.0-windows\BoardGamesLibrary2.pdb
 C:\Users\jerem\source\repos\BoardGamesLibrary2\obj\Debug\net8.0-windows\BoardGamesLibrary2.genruntimeconfig.cache
 C:\Users\jerem\source\repos\BoardGamesLibrary2\obj\Debug\net8.0-windows\ref\BoardGamesLibrary2.dll
+C:\Users\jerem\source\repos\BoardGamesLibrary2\obj\Debug\net8.0-windows\BoardGamesLibrary2.Forms.AddUserForm.resources

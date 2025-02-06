@@ -28,12 +28,45 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Text = "UserForm";
+            this.dgvGames = new DataGridView();
+            this.txtSearch = new TextBox();
+            this.cmbSort = new ComboBox();
+            this.ClientSize = new Size(800, 450);
+
+            // Configuration DataGridView
+            dgvGames.Location = new Point(20, 50);
+            dgvGames.Size = new Size(600, 300);
+            dgvGames.ReadOnly = true;
+
+            // Zone de recherche
+            txtSearch.Location = new Point(20, 10);
+            txtSearch.Size = new Size(200, 23);
+            txtSearch.TextChanged += (s, e) => LoadGames(txtSearch.Text);
+
+            // ComboBox de tri
+            cmbSort.Location = new Point(250, 10);
+            cmbSort.Size = new Size(150, 23);
+            cmbSort.Items.AddRange(new[] { "Nom", "Nombre de joueurs", "Nombre de cartes" });
+            cmbSort.SelectedIndexChanged += (s, e) =>
+            {
+                string sortColumn = cmbSort.Text switch
+                {
+                    "Nombre de joueurs" => "MinPlayers",
+                    "Nombre de cartes" => "NumberOfCards",
+                    _ => "Name"
+                };
+                LoadGames(txtSearch.Text, sortColumn);
+            };
+
+            this.Controls.Add(dgvGames);
+            this.Controls.Add(txtSearch);
+            this.Controls.Add(cmbSort);
         }
 
         #endregion
+
+        private DataGridView dgvGames;
+        private TextBox txtSearch;
+        private ComboBox cmbSort;
     }
 }

@@ -33,26 +33,44 @@ namespace BoardGamesLibrary2.Forms
 
         private void btnLogin_Click(object sender, EventArgs e)
         {
-            string username = txtUsername.Text;
-            string password = txtPassword.Text;
-
-            User user = AuthenticateUser(username, password);
-
-            if (user != null)
+            try
             {
-                if (user.Role == Constants.ROLE_ADMIN)
+                string username = txtUsername.Text;
+                string password = Security.HashPassword(txtPassword.Text);
+
+                using (MySqlConnection conn = new MySqlConnection(Constants.CONNECTION_STRING))
                 {
-                    new AdminForm().Show();
+                    conn.Open();
+                    string query = "SELECT Role FROM users WHERE Username = @username AND PasswordHash = @password";
+                    MySqlCommand cmd = new MySqlCommand(query, conn);
+                    cmd.Parameters.AddWithValue("@username", username);
+                    cmd.Parameters.AddWithValue("@password", password);
+
+                    object result = cmd.ExecuteScalar();
+
+                    if (result != null)
+                    {
+                        string role = result.ToString();
+                        this.Hide();
+
+                        if (role == Constants.ROLE_ADMIN)
+                        {
+                            new AdminForm().Show();
+                        }
+                        else
+                        {
+                            new UserForm().Show();
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show("Identifiants incorrects");
+                    }
                 }
-                else
-                {
-                    new UserForm().Show();
-                }
-                this.Hide();
             }
-            else
+            catch (Exception ex)
             {
-                MessageBox.Show("Identifiants incorrects");
+                MessageBox.Show($"Erreur de connexion : {ex.Message}");
             }
         }
 
